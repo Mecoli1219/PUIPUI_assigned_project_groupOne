@@ -69,8 +69,8 @@ void MotorWriting(double vL, double vR)
   }
   analogWrite(MotorL_PWML, vL);
   analogWrite(MotorR_PWMR, vR);
-  Serial.print(vL);
-  Serial.println(vR);
+  //Serial.print(vL);
+  //Serial.println(vR);
 } // MotorWriting
 
 // P/PID control Tracking

@@ -77,7 +77,7 @@ void setup()
 /*===========================initialize variables===========================*/
 int rr = 0, r = 0, m = 0, l = 0, ll = 0; //紅外線模組的讀值(0->white,1->black)
 int _Tp = 110;                           //set your own value for motor power
-bool state = false;                      //set state to false to halt the car, set state to true to activate the car
+bool state = true;                      //set state to false to halt the car, set state to true to activate the car
 BT_CMD _cmd = NOTHING;                   //enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================initialize variables===========================*/
 
@@ -89,10 +89,10 @@ void SetState(); // switch the state
 /*===========================define function===========================*/
 void loop()
 {
-  if (!state)
+  if (!state){
     MotorWriting(0, 0);
-  else
     Search();
+  }
   SetState();
 }
 
@@ -106,21 +106,28 @@ void SetState()
   m = digitalRead(M);
   r = digitalRead(R);
   rr = digitalRead(RR);
-  if (ll + l + m + r + rr >= 4)
+  //Serial.println(ll + l + m + r + rr);
+  if ((ll + l + m + r + rr) >= 4)
   {
     in_node = true;
   }
   else if (in_node && !deal_with_node)
   {
     state = false;
+    in_node = false;
     deal_with_node = true;
   }
   else if (deal_with_node)
   {
     // let node do things
+    do_command(_cmd);
+    _cmd = NOTHING;
+    state = true;
+    deal_with_node = false;
   }
   else
   {
+    state = true;
     tracking(ll, l, m, r, rr);
   }
 }
@@ -128,9 +135,10 @@ void SetState()
 void Search()
 {
   // TODO: let your car search graph(maze) according to bluetooth command from computer(python code)
-  send_msg("n");
+  Serial.println("Search");
+  send_msg('n');
 
-    while (_cmd == 0)
+  while (_cmd == 0)
   {
     _cmd = ask_BT();
   }

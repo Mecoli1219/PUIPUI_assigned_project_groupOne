@@ -19,7 +19,7 @@ def main():
     if (sys.argv[1] == '0'):
         print("Mode 0: for treasure-hunting")
         mode = input("Enter which BFS you want:(BFS, BFS_2)")
-        direction = input("Enter the initial direction:(1,2,3,4)")
+        direction = 2 #input("Enter the initial direction:(1,2,3,4)")
         if mode == "BFS":
             init = input("Enter the start node:")
             route = maze.strategy(init)
@@ -28,6 +28,7 @@ def main():
             end = input("Enter the final node:")
             route = maze.strategy_2(init, end)
         start = 0
+
         while(start < (len(route)-1)):
             command = interf.get_command()
             print(command)

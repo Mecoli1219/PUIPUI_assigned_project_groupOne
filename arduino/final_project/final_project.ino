@@ -77,7 +77,7 @@ void setup()
 /*===========================initialize variables===========================*/
 int rr = 0, r = 0, m = 0, l = 0, ll = 0; //紅外線模組的讀值(0->white,1->black)
 int _Tp = 110;                           //set your own value for motor power
-bool state = true;                      //set state to false to halt the car, set state to true to activate the car
+bool state = false;                      //set state to false to halt the car, set state to true to activate the car
 BT_CMD _cmd = NOTHING;                   //enum for bluetooth message, reference in bluetooth.h line 2
 /*===========================initialize variables===========================*/
 
@@ -110,6 +110,7 @@ void SetState()
   if ((ll + l + m + r + rr) >= 4)
   {
     in_node = true;
+    tracking(ll, l, m, r, rr);
   }
   else if (in_node && !deal_with_node)
   {

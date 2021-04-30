@@ -17,7 +17,7 @@ int extern MotorR_I3;
 int extern MotorR_I4;
 int extern MotorL_PWML;
 int extern MotorR_PWMR;
-int time_for_rotate = 2000;
+int time_for_rotate = 250;
 /*===========================import variable===========================*/
 
 // TODO: add some function to control your car when encounter a node

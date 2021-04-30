@@ -28,6 +28,10 @@ def main():
             end = input("Enter the final node:")
             route = maze.strategy_2(init, end)
         start = 0
+        action = maze.getAction(direction, route[start], route[start + 1])
+        interf.send_action(action)
+        direction = str(int(maze.nd_dict[route[start]].getDirection(route[start + 1])))
+        start += 1
 
         while(start < (len(route)-1)):
             command = interf.get_command()

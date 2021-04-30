@@ -43,6 +43,8 @@ void MotorInverter(double &motor, bool &dir)
 // Write the voltage to motor.
 void MotorWriting(double vL, double vR)
 {
+  Serial.print(vL);
+  Serial.println(vR);
   bool L_inv = false;
   bool R_inv = false;
   MotorInverter(vL, L_inv);
@@ -69,8 +71,7 @@ void MotorWriting(double vL, double vR)
   }
   analogWrite(MotorL_PWML, vL);
   analogWrite(MotorR_PWMR, vR);
-  //Serial.print(vL);
-  //Serial.println(vR);
+
 } // MotorWriting
 
 // P/PID control Tracking

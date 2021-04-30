@@ -79,20 +79,19 @@ class Maze:
 
     def BFS_far(self, pre_nd, route, longest_distance, distance):
         have_successor = False
-        new_longest_distance = 0
         for next_nd in self.nd_dict[pre_nd].getSuccessors():
             if next_nd[0] not in route:
                 distance += self.nd_dict[pre_nd].getDistance(next_nd[0])
                 have_successor = True
                 route.append(next_nd[0])
-                new_longest_distance = self.BFS_far(next_nd[0], route, longest_distance, distance)
+                longest_distance = self.BFS_far(next_nd[0], route, longest_distance, distance)
                 route.pop()
                 distance -= self.nd_dict[pre_nd].getDistance(next_nd[0])
         if not have_successor:
             if longest_distance < distance:
-                new_longest_distance = distance
+                longest_distance = distance
                 self.BFS_far_ans = list.copy(route)
-        return new_longest_distance
+        return longest_distance
 
     def BFS_2(self, nd_from, nd_to):
         # TODO : similar to BFS but with fixed start point and end point
@@ -127,19 +126,18 @@ class Maze:
         return route
 
     def BFS_2_far(self, pre_nd, final, route, longest_distance, distance):
-        new_longest_distance = 0
         for next_nd in self.nd_dict[pre_nd].getSuccessors():
             if next_nd[0] not in route:
                 distance += self.nd_dict[pre_nd].getDistance(next_nd[0])
                 route.append(next_nd[0])
-                new_longest_distance = self.BFS_2_far(next_nd[0], final, route, longest_distance, distance)
+                longest_distance = self.BFS_2_far(next_nd[0], final, route, longest_distance, distance)
                 route.pop()
                 distance -= self.nd_dict[pre_nd].getDistance(next_nd[0])
         if route[-1] == final:
             if longest_distance < distance:
-                new_longest_distance = distance
+                longest_distance = distance
                 self.BFS_2_far_ans = list.copy(route)
-        return new_longest_distance
+        return longest_distance
 
     def getAction(self, car_dir, nd_from, nd_to):
         # TODO : get the car action

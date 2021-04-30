@@ -10,6 +10,6 @@ import time
 import sys
 import os
 
-maze = mz.Maze("data/small_maze.csv")
+maze = mz.Maze("data/medium_maze.csv")
 
-print(maze.BFS("4"))
+print(maze.BFS_2("1","9"))

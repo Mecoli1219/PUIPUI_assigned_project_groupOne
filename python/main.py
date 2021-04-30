@@ -45,6 +45,7 @@ def main():
              #   uidcode = interf.get_UID()
               #  point.add_UID(str(uidcode))
                # print(point.getCurrentScore())
+        command = interf.get_command()
         interf.send_action(mz.Action(5))        
 
         print(route)

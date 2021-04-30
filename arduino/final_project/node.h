@@ -25,7 +25,7 @@ int time_for_rotate = 270;
 void do_ADVANCE()
 {
     int times = 0;
-    while(times <= 5){
+    while(times <= 20){
       ll = digitalRead(LL);
       l = digitalRead(L);
       m = digitalRead(M);
@@ -47,7 +47,7 @@ void do_TURN_RIGHT()
     digitalWrite(MotorL_I2, HIGH);
     digitalWrite(MotorR_I3, HIGH);
     digitalWrite(MotorR_I4, LOW);
-    delay(750);
+    delay(800);
     analogWrite(MotorL_PWML, 100);
     analogWrite(MotorR_PWMR, 100);
     while(digitalRead(M) != 1);
@@ -92,6 +92,7 @@ void do_HALT()
 {
     digitalWrite(MotorL_PWML, LOW);
     digitalWrite(MotorR_PWMR, LOW);
+    delay(10000);
 }
 void do_command(BT_CMD cmd)
 {

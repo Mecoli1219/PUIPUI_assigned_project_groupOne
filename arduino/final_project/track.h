@@ -88,7 +88,7 @@ void tracking(int ll, int l, int m, int r, int rr)
 
   // 馬達左右轉速原始值(從PID control 計算出來)。Between -255 to 255.
   double adj_R = 1.0;
-  double adj_L = 1.3; // 馬達轉速修正係數。MotorWriting(_Tp,_Tp)如果歪掉就要用參數修正。
+  double adj_L = 1.2 ; // 馬達轉速修正係數。MotorWriting(_Tp,_Tp)如果歪掉就要用參數修正。
 
   // TODO: complete your P/PID tracking code
 
@@ -124,7 +124,7 @@ bool tracking_advance(int ll, int l, int m, int r, int rr)
 
   // 馬達左右轉速原始值(從PID control 計算出來)。Between -255 to 255.
   double adj_R = 1.0;
-  double adj_L = 1.3; // 馬達轉速修正係數。MotorWriting(_Tp,_Tp)如果歪掉就要用參數修正。
+  double adj_L = 1.4; // 馬達轉速修正係數。MotorWriting(_Tp,_Tp)如果歪掉就要用參數修正。
 
   // TODO: complete your P/PID tracking code
 

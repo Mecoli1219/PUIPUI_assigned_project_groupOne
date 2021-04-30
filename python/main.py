@@ -41,6 +41,10 @@ def main():
                 interf.send_action(action)
                 direction = str(int(maze.nd_dict[route[start]].getDirection(route[start + 1])))
                 start += 1
+            #else:
+             #   uidcode = interf.get_UID()
+              #  point.add_UID(str(uidcode))
+               # print(point.getCurrentScore())
         interf.send_action(mz.Action(5))        
 
         print(route)

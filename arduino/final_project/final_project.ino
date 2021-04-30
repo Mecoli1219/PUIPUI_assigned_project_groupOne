@@ -133,10 +133,7 @@ void SetState()
     state = true;
     tracking(ll, l, m, r, rr);
   }
-  byte a = 0;
-  byte* A = rfid(a);
-  if(a!=0)
-    send_byte(A,mfrc522.uid.size);
+  
 }
 
 void Search()

@@ -41,11 +41,11 @@ class bluetooth:
         sleep(0.05)
         waiting = self.ser.inWaiting()
         rv = self.ser.read(waiting)
-        if(rv):
-            UID = hex(int.from_bytes(rv, byteorder='big', signed=False))
-            self.ser.flushInput()
-            return UID
-        else:
-            return 0
+        #if(rv):
+        UID = hex(int.from_bytes(rv, byteorder='big', signed=False))
+        self.ser.flushInput()
+        return UID
+        #else:
+         #   return 5
 
 

@@ -86,6 +86,10 @@ void do_U_TURN(){
     digitalWrite(MotorL_PWML, LOW);
     digitalWrite(MotorR_PWMR, LOW);
     do_ADVANCE();
+    byte a = 0;
+    byte* A = rfid(a);
+    while(a!=0)
+      send_byte(A,a);
 }
 
 void do_HALT()

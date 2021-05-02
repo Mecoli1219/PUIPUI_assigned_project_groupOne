@@ -11,7 +11,7 @@ import sys
 import os
 
 def main():
-    maze = mz.Maze("data/medium_maze.csv")
+    maze = mz.Maze("data/small_maze.csv")
     point = score.Scoreboard("data/UID.csv", "team_NTUEE")
     interf = interface.interface()
     # TODO : Initializ1e necessary variables
@@ -19,7 +19,7 @@ def main():
     if (sys.argv[1] == '0'):
         print("Mode 0: for treasure-hunting")
         mode = input("Enter which BFS you want:(BFS, BFS_2)")
-        direction = "4" #input("Enter the initial direction:(1,2,3,4)")
+        direction = "2" #input("Enter the initial direction:(1,2,3,4)")
         if mode == "BFS":
             init = input("Enter the start node:")
             route = maze.strategy(init)
@@ -41,12 +41,21 @@ def main():
                 action = maze.getAction(direction, route[start], route[start + 1])
                 interf.send_action(action)
                 if action == mz.Action(2):
+                    print("hi")
                     uidcode = interf.get_UID()
                     print(uidcode)
                     point.add_UID(str(uidcode))
                     print(point.getCurrentScore())
                 direction = str(int(maze.nd_dict[route[start]].getDirection(route[start + 1])))
                 start += 1
+
+#            if uidcode != 0:            
+                    #point.add_UID(str(uidcode))
+                    #print(point.getCurrentScore())
+ #               print(uidcode)
+  #              point.add_UID(str(uidcode))
+   #             print(point.getCurrentScore())
+            
         command = interf.get_command()
         interf.send_action(mz.Action(5))        
 

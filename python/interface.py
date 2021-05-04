@@ -19,8 +19,8 @@ class interface:
         input("Press enter to start.")
         # self.ser.SerialWrite('s')
 
-    def get_UID(self):
-        return self.ser.SerialReadByte()
+    def get_UID(self,time):
+        return self.ser.SerialReadByte(time)
 
     def send_action(self,action):
         # TODO : send the action to car

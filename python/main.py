@@ -122,12 +122,9 @@ def main():
                     interf.send_action(mz.Action(1))
                     in_node += 1
                 elif in_node == 4:
-                    interf.send_action(mz.Action(3))
-                    in_node += 1
-                elif in_node == 5:
-                    interf.send_action(mz.Action(2))
-                    in_node += 1
-                    uidcode = interf.get_UID()
+                    interf.send_action(mz.Action(6))
+                    in_node += 2
+                    uidcode = interf.get_UID(5)
                     print(uidcode)
                     point.add_UID(str(uidcode))
                     print(point.getCurrentScore())
@@ -141,12 +138,9 @@ def main():
                     interf.send_action(mz.Action(4))
                     in_node += 1
                 elif in_node == 9:
-                    interf.send_action(mz.Action(3))
-                    in_node += 1  
-                elif in_node == 10:
-                    interf.send_action(mz.Action(2))
-                    in_node += 1
-                    uidcode = interf.get_UID()
+                    interf.send_action(mz.Action(6))
+                    in_node += 2  
+                    uidcode = interf.get_UID(5)
                     print(uidcode)
                     point.add_UID(str(uidcode))
                     print(point.getCurrentScore())

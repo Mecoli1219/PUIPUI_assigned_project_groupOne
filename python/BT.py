@@ -37,8 +37,8 @@ class bluetooth:
             return rv
         return ""
 
-    def SerialReadByte(self):
-        sleep(2.5)
+    def SerialReadByte(self, time = 2.5):
+        sleep(time)
         waiting = self.ser.inWaiting()
         rv = self.ser.read(waiting)
         if(rv):

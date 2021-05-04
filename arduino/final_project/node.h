@@ -41,66 +41,87 @@ void do_ADVANCE()
 
 void do_TURN_RIGHT()
 {
-    analogWrite(MotorL_PWML, 255);
-    analogWrite(MotorR_PWMR, 150);
-    digitalWrite(MotorL_I1, LOW);
-    digitalWrite(MotorL_I2, HIGH);
-    digitalWrite(MotorR_I3, HIGH);
-    digitalWrite(MotorR_I4, LOW);
+    /*
+    MotorWriting(255, -150);
     delay(800);
-    analogWrite(MotorL_PWML, 100);
-    analogWrite(MotorR_PWMR, 100);
+    MotorWriting(100, -100);
     while(digitalRead(M) != 1);
-    digitalWrite(MotorL_PWML, LOW);
-    digitalWrite(MotorR_PWMR, LOW);
+    MotorWriting(0, 0);
+    do_ADVANCE();*/
+    MotorWriting(-255, 150);
+    delay(850);
+    MotorWriting(-100, 100);
+    while(digitalRead(M) != 1);
+    MotorWriting(0, 0);
     do_ADVANCE();
 }
 
 void do_TURN_LEFT()
 {
-    analogWrite(MotorL_PWML, 255);
-    analogWrite(MotorR_PWMR, 150);
-    digitalWrite(MotorL_I1, LOW);
-    digitalWrite(MotorL_I2, HIGH);
-    digitalWrite(MotorR_I3, HIGH);
-    digitalWrite(MotorR_I4, LOW);
+    MotorWriting(-255, 150);
     delay(280);
-    analogWrite(MotorL_PWML, 100);
-    analogWrite(MotorR_PWMR, 100);
+    MotorWriting(-100, 100);
     while(digitalRead(M) != 1);
-    digitalWrite(MotorL_PWML, LOW);
-    digitalWrite(MotorR_PWMR, LOW);
+    MotorWriting(0, 0);
     do_ADVANCE();
 }
 void do_U_TURN(){
-    analogWrite(MotorL_PWML, 255);
-    analogWrite(MotorR_PWMR, 150);
-    digitalWrite(MotorL_I1, LOW);
-    digitalWrite(MotorL_I2, HIGH);
-    digitalWrite(MotorR_I3, HIGH);
-    digitalWrite(MotorR_I4, LOW);
+    MotorWriting(-255, 150);
     delay(500);
-    analogWrite(MotorL_PWML, 100);
-    analogWrite(MotorR_PWMR, 100);
+    MotorWriting(-100, 100);
     while(digitalRead(M) != 1);
-    digitalWrite(MotorL_PWML, LOW);
-    digitalWrite(MotorR_PWMR, LOW);
+    MotorWriting(0, 0);
     do_ADVANCE();
-    digitalWrite(MotorL_PWML, LOW);
-    digitalWrite(MotorR_PWMR, LOW);
+    MotorWriting(0, 0);
     byte a =0;
-    while(a == 0){
+    int counting = 0;
+    while(a == 0 && counting < 50){
       byte* A = rfid(a);
+      counting ++;
       if(a!=0)
         send_byte(A,mfrc522.uid.size);
     }
     delay(2000);
 }
+void do_BACK()
+{
+  do_TURN_LEFT();
+  do_ADVANCE();
+  MotorWriting(0,0);
+  bool in_node = false;
+  bool deal_with_node = false;
+  while(!in_node || !deal_with_node){
+    ll = digitalRead(LL);
+    l = digitalRead(L);
+    m = digitalRead(M);
+    r = digitalRead(R);
+    rr = digitalRead(RR);
+    MotorWriting(-255, -100);
+    if ((ll + l + m + r + rr) >= 4)
+    {
+      in_node = true;
+    }
+    else if(in_node)
+    {
+      deal_with_node = true;
+      MotorWriting(0,0);
+      byte a =0;
+      int counting = 0;
+      while(a == 0 && counting < 50){
+        byte* A = rfid(a);
+        counting ++;
+        if(a!=0)
+          send_byte(A,mfrc522.uid.size);
+      }
+      delay(2000);
+    }
+  }
+  
+}
 
 void do_HALT()
 {
-    digitalWrite(MotorL_PWML, LOW);
-    digitalWrite(MotorR_PWMR, LOW);
+    MotorWriting(0, 0);
     delay(10000);
 }
 void do_command(BT_CMD cmd)
@@ -124,5 +145,9 @@ void do_command(BT_CMD cmd)
     if (cmd == 5)
     {
         do_HALT();
+    }
+    if (cmd == 6)
+    {
+        do_BACK();
     }
 }

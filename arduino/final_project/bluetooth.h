@@ -17,7 +17,8 @@ enum BT_CMD
   U_TURN,
   TURN_RIGHT,
   TURN_LEFT,
-  HALT
+  HALT,
+  BACK
 };
 
 BT_CMD ask_BT()

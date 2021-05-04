@@ -19,7 +19,7 @@ class interface:
         input("Press enter to start.")
         # self.ser.SerialWrite('s')
 
-    def get_UID(self,time):
+    def get_UID(self,time = 2.5):
         return self.ser.SerialReadByte(time)
 
     def send_action(self,action):

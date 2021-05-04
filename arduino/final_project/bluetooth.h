@@ -41,6 +41,8 @@ BT_CMD ask_BT()
       message = TURN_LEFT;
     if (cmd == '5')
       message = HALT;
+    if (cmd == '6')
+      message = BACK;
 #ifdef DEBUG
     Serial.print("cmd : ");
     Serial.println(cmd);

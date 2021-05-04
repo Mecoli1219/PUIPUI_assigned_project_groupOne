@@ -12,6 +12,7 @@ class Action(IntEnum):
     TURN_RIGHT = 3
     TURN_LEFT = 4
     HALT = 5
+    BACK = 6
 
 
 class Maze:

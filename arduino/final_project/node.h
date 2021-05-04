@@ -86,10 +86,15 @@ void do_U_TURN(){
     digitalWrite(MotorL_PWML, LOW);
     digitalWrite(MotorR_PWMR, LOW);
     do_ADVANCE();
-    byte a = 0;
-    byte* A = rfid(a);
-    while(a!=0)
-      send_byte(A,a);
+    digitalWrite(MotorL_PWML, LOW);
+    digitalWrite(MotorR_PWMR, LOW);
+    byte a =0;
+    while(a == 0){
+      byte* A = rfid(a);
+      if(a!=0)
+        send_byte(A,mfrc522.uid.size);
+    }
+    delay(2000);
 }
 
 void do_HALT()

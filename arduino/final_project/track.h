@@ -95,7 +95,7 @@ void tracking(int ll, int l, int m, int r, int rr)
   if (total != 0)
     mul /= total;
   else{
-    MotorWriting(-200, -200);
+    MotorWriting(-255, -255);
   }
   error *= mul;
 
@@ -121,17 +121,20 @@ bool tracking_advance(int ll, int l, int m, int r, int rr)
   double error = ll * _w1 + l * _w2 + m * _w3 + r * (-_w2) + rr * (-_w1);
 
   // 馬達左右轉速原始值(從PID control 計算出來)。Between -255 to 255.
-  double adj_R = 1.0;
-  double adj_L = 1.4; // 馬達轉速修正係數。MotorWriting(_Tp,_Tp)如果歪掉就要用參數修正。
+  double adj_R = 1.2;
+  double adj_L = 1.0; // 馬達轉速修正係數。MotorWriting(_Tp,_Tp)如果歪掉就要用參數修正。
 
   // TODO: complete your P/PID tracking code
 
   int total = ll + l + m + r + rr;
   double mul = 10;
-  if (total != 0)
+  if (total != 0 && total <4)
     mul /= total;
-  else{
-    MotorWriting(-200, -200);
+  else if (total >=4){
+    MotorWriting(100,100);
+    return false;
+    }else {
+    MotorWriting(-255, -255);
     return false;
   }
   error *= mul;

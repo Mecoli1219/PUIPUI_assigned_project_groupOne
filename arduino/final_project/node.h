@@ -25,13 +25,14 @@ int time_for_rotate = 270;
 void do_ADVANCE()
 {
     int times = 0;
-    while(times <= 20){
+    while(times <= 1000){
       ll = digitalRead(LL);
       l = digitalRead(L);
       m = digitalRead(M);
       r = digitalRead(R);
-      rr = digitalRead(RR);
-      if(tracking_advance(ll,l,m,r,rr)){
+      rr = digitalRead(RR); 
+      bool on_line = tracking_advance(ll,l,m,r,rr);
+      if(on_line){
         times ++;
       }else{
         times = 0;
@@ -41,39 +42,43 @@ void do_ADVANCE()
 
 void do_TURN_RIGHT()
 {
-    /*
-    MotorWriting(255, -150);
-    delay(800);
+    
+    MotorWriting(180, -255);
+    delay(280);
+    MotorWriting(100, 100);
+    delay(100);
     MotorWriting(100, -100);
     while(digitalRead(M) != 1);
-    MotorWriting(0, 0);
-    do_ADVANCE();*/
+    MotorWriting(0,0);
+    do_ADVANCE();
+    /*
     MotorWriting(-255, 150);
     delay(850);
     MotorWriting(-100, 100);
     while(digitalRead(M) != 1);
     MotorWriting(0, 0);
-    do_ADVANCE();
+    do_ADVANCE();*/
 }
 
 void do_TURN_LEFT()
 {
-  Serial.println("Left");
-    MotorWriting(-255, 150);
-    delay(280);
+    MotorWriting(-255, 200);
+    delay(300);
+    MotorWriting(100, 100);
+    delay(100);
     MotorWriting(-100, 100);
     while(digitalRead(M) != 1);
-    MotorWriting(0, 0);
+    MotorWriting(0,0);
     do_ADVANCE();
 }
 void do_U_TURN(){
-    MotorWriting(-255, 150);
-    delay(500);
+    MotorWriting(-255, 200);
+    delay(480);
+    MotorWriting(100, 100);
+    delay(100);
     MotorWriting(-100, 100);
     while(digitalRead(M) != 1);
-    MotorWriting(0, 0);
-    do_ADVANCE();
-    MotorWriting(0, 0);
+    MotorWriting(0,0);
     byte a =0;
     int counting = 0;
     while(a == 0 && counting < 50){
@@ -82,6 +87,8 @@ void do_U_TURN(){
       if(a!=0)
         send_byte(A,mfrc522.uid.size);
     }
+    do_ADVANCE();
+    MotorWriting(0, 0);
     delay(2000);
 }
 void do_BACK()
@@ -97,7 +104,7 @@ void do_BACK()
     m = digitalRead(M);
     r = digitalRead(R);
     rr = digitalRead(RR);
-    MotorWriting(-255, -100);
+    MotorWriting(-100, -100);
     if ((ll + l + m + r + rr) >= 4)
     {
       in_node = true;

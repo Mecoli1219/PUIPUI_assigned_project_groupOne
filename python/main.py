@@ -109,6 +109,9 @@ def main():
                     interf.send_action(mz.Action(5))
                     in_node += 1      
                 print(in_node)
+        command = interf.get_command()
+        interf.send_action(mz.Action(5))  
+
     elif (sys.argv[1] == '2'):
         # TODO: You can write your code to test specific function.
         print("Mode 2: for checkpoint with backward")
@@ -138,9 +141,12 @@ def main():
                     interf.send_action(mz.Action(4))
                     in_node += 1
                 elif in_node == 9:
-                    interf.send_action(mz.Action(6))
-                    in_node += 2  
-                    uidcode = interf.get_UID(5)
+                    interf.send_action(mz.Action(3))
+                    in_node += 1  
+                elif in_node == 10:
+                    interf.send_action(mz.Action(2))
+                    in_node += 1
+                    uidcode = interf.get_UID()
                     print(uidcode)
                     point.add_UID(str(uidcode))
                     print(point.getCurrentScore())
@@ -151,6 +157,9 @@ def main():
                     interf.send_action(mz.Action(5))
                     in_node += 1      
                 print(in_node)
+
+        command = interf.get_command()
+        interf.send_action(mz.Action(5))  
 
     interf.end_process()
 

@@ -58,6 +58,7 @@ void do_TURN_RIGHT()
 
 void do_TURN_LEFT()
 {
+  Serial.println("Left");
     MotorWriting(-255, 150);
     delay(280);
     MotorWriting(-100, 100);

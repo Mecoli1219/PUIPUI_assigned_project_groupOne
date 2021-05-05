@@ -43,8 +43,6 @@ void MotorInverter(double &motor, bool &dir)
 // Write the voltage to motor.
 void MotorWriting(double vL, double vR)
 {
-  Serial.print(vL);
-  Serial.println(vR);
   bool L_inv = false;
   bool R_inv = false;
   MotorInverter(vL, L_inv);
@@ -87,7 +85,7 @@ void tracking(int ll, int l, int m, int r, int rr)
   double error = ll * _w1 + l * _w2 + m * _w3 + r * (-_w2) + rr * (-_w1);
 
   // 馬達左右轉速原始值(從PID control 計算出來)。Between -255 to 255.
-  double adj_R = 0.95;
+  double adj_R = 0.80;
   double adj_L = 1.2 ; // 馬達轉速修正係數。MotorWriting(_Tp,_Tp)如果歪掉就要用參數修正。
 
   // TODO: complete your P/PID tracking code

@@ -96,6 +96,7 @@ void tracking(int ll, int l, int m, int r, int rr)
     mul /= total;
   else{
     MotorWriting(-255, -255);
+    return;
   }
   error *= mul;
 

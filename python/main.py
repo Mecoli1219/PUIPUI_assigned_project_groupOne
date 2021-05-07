@@ -11,22 +11,15 @@ import sys
 import os
 
 def main():
-    maze = mz.Maze("data/medium_maze.csv")
+    maze = mz.Maze("data/final_map_109.csv")
     point = score.Scoreboard("data/UID.csv", "team_NTUEE")
     interf = interface.interface()
     # TODO : Initializ1e necessary variables
 
     if (sys.argv[1] == '0'):
         print("Mode 0: for treasure-hunting")
-        mode = input("Enter which BFS you want:(BFS, BFS_2)")
-        direction = "1" #input("Enter the initial direction:(1,2,3,4)")
-        if mode == "BFS":
-            init = input("Enter the start node:")
-            route = maze.strategy(init)
-        if mode == "BFS_2":
-            init = input("Enter the start node:")
-            end = input("Enter the final node:")
-            route = maze.strategy_2(init, end)
+        direction = "2" #input("Enter the initial direction:(1,2,3,4)")
+        route = maze.strategy("1")
         print(route)
         start = 0
         action = maze.getAction(direction, route[start], route[start + 1])

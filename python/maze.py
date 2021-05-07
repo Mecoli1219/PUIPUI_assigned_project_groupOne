@@ -33,8 +33,13 @@ class Maze:
                     nd.setSuccessor(str(int(data[i])), i, int(data[i+4]))
             self.nodes.append(nd)
             self.nd_dict[node_name] = nd
-        self.BFS_far_ans = []
-        self.BFS_2_far_ans = []
+        self.DFS_far_ans = []
+        self.DFS_2_far_ans = []
+        self.test_route = []
+        self.test_path = []
+        self.target_dict = dict()
+        self.getUTurnList()
+        self.complete_target_list()
 
 
     def getStartPoint(self):
@@ -46,12 +51,19 @@ class Maze:
     def getNodeDict(self):
         return self.nd_dict
 
-    def BFS(self, nd):
+    def getUTurnList(self):
+        for node in self.nd_dict:
+            successor = self.nd_dict[node].getSuccessors()
+            if len(successor) == 1:
+                self.target_dict[node] = dict()
+
+
+    def DFS(self, nd):
         # TODO : design your data structure here for your algorithm
         # Tips : return a sequence of nodes from the node to the nearest unexplored deadend
         
-        self.BFS_far(nd, [nd], 0, 0)
-        route = self.BFS_far_ans
+        self.DFS_far(nd, [nd], 0, 0)
+        route = self.DFS_far_ans
         unvisited = []
         for nd in self.nodes:
             if str(nd.index) not in route:
@@ -78,7 +90,7 @@ class Maze:
 
         return route
 
-    def BFS_far(self, pre_nd, route, longest_distance, distance):
+    def DFS_far(self, pre_nd, route, longest_distance, distance):
         have_successor = False
         for next_nd in self.nd_dict[pre_nd].getSuccessors():
             if next_nd[0] not in route:
@@ -91,16 +103,16 @@ class Maze:
         if not have_successor:
             if longest_distance < distance:
                 longest_distance = distance
-                self.BFS_far_ans = list.copy(route)
+                self.DFS_far_ans = list.copy(route)
         return longest_distance
 
-    def BFS_2(self, nd_from, nd_to):
-        # TODO : similar to BFS but with fixed start point and end point
+    def DFS_2(self, nd_from, nd_to):
+        # TODO : similar to DFS but with fixed start point and end point
         # Tips : return a sequence of nodes of the shortest path
         
-        self.BFS_2_far_ans = [nd_from]
-        self.BFS_2_far(nd_from, nd_to, [nd_from], 0, 0)
-        route = self.BFS_2_far_ans
+        self.DFS_2_far_ans = [nd_from]
+        self.DFS_2_far(nd_from, nd_to, [nd_from], 0, 0)
+        route = self.DFS_2_far_ans
         unvisited = []
         for nd in self.nodes:
             if str(nd.index) not in route:
@@ -126,18 +138,18 @@ class Maze:
                     break
         return route
 
-    def BFS_2_far(self, pre_nd, final, route, longest_distance, distance):
+    def DFS_2_far(self, pre_nd, final, route, longest_distance, distance):
         for next_nd in self.nd_dict[pre_nd].getSuccessors():
             if next_nd[0] not in route:
                 distance += self.nd_dict[pre_nd].getDistance(next_nd[0])
                 route.append(next_nd[0])
-                longest_distance = self.BFS_2_far(next_nd[0], final, route, longest_distance, distance)
+                longest_distance = self.DFS_2_far(next_nd[0], final, route, longest_distance, distance)
                 route.pop()
                 distance -= self.nd_dict[pre_nd].getDistance(next_nd[0])
         if route[-1] == final:
             if longest_distance < distance:
                 longest_distance = distance
-                self.BFS_2_far_ans = list.copy(route)
+                self.DFS_2_far_ans = list.copy(route)
         return longest_distance
 
     def getAction(self, car_dir, nd_from, nd_to):
@@ -178,6 +190,64 @@ class Maze:
 
         print("Error: getAction not found!")
         return 0
+    
+    def complete_target_list(self):
+        for node1 in self.target_dict:
+            for node2 in self.target_dict:
+                if node1 != node2:
+                    distance = self.BFS_rec(node1, node2, [node1], None, 0)
+                    self.target_dict[node1][node2] = (distance, list.copy(self.test_route))
+                    self.test_route=[]
+
+    def BFS(self, nd_from):
+        self.shortest_path(nd_from, [nd_from], None, 0)
+        route = [nd_from]
+        print(self.test_path)
+        for target in self.test_path:
+            if target != nd_from:
+                route.pop()
+                route = route + self.target_dict[nd_from][target][1]
+                nd_from = target
+        return route
+
+    def shortest_path(self, nd_from, path, shortest_distance, distance):
+        for target in self.target_dict[nd_from]:
+            if target not in path:
+                distance += self.target_dict[nd_from][target][0]
+                path.append(target)
+                if shortest_distance != None:
+                    if distance < shortest_distance:
+                        shortest_distance = self.shortest_path(target, path, shortest_distance, distance)
+                else:
+                    shortest_distance = self.shortest_path(target, path, shortest_distance, distance)
+                path.pop()
+                distance -= self.target_dict[nd_from][target][0]
+        if len(path) == len(self.target_dict):
+            if shortest_distance == None:
+                shortest_distance = distance
+                self.test_path = list.copy(path)
+            elif shortest_distance > distance:
+                shortest_distance = distance
+                self.test_path = list.copy(path)
+        return shortest_distance
+
+
+    def BFS_rec(self, pre_nd, final, route, shortest_distance, distance):
+        for next_nd in self.nd_dict[pre_nd].getSuccessors():
+            if next_nd[0] not in route:
+                distance += self.nd_dict[pre_nd].getDistance(next_nd[0])
+                route.append(next_nd[0])
+                shortest_distance = self.BFS_rec(next_nd[0], final, route, shortest_distance, distance)
+                route.pop()
+                distance -= self.nd_dict[pre_nd].getDistance(next_nd[0])
+        if route[-1] == final:
+            if shortest_distance == None:
+                shortest_distance = distance
+                self.test_route = list.copy(route)
+            elif shortest_distance > distance:
+                shortest_distance = distance
+                self.test_route = list.copy(route)
+        return shortest_distance
 
     def strategy(self, nd):
         return self.BFS(nd)

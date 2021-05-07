@@ -10,6 +10,12 @@ import time
 import sys
 import os
 
-maze = mz.Maze("data/medium_maze.csv")
+maze = mz.Maze("data/final_map_109.csv")
 
-print(maze.BFS_2("1","9"))
+# print(maze.BFS("1"))
+# distance = maze.BFS_rec("1","4", ["1"],None, 0)
+# print(maze.test_route)
+# print(distance)
+# distance = maze.shortest_path("1",["1"], None, 0)
+# print(maze.test_path)
+print(maze.strategy("1"))

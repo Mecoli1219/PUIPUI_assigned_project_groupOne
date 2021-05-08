@@ -16,19 +16,19 @@ class Action(IntEnum):
 
 
 class Maze:
-    
+
     def __init__(self, filepath):
         # TODO : read file and implement a data structure you like
-		# For example, when parsing raw_data, you may create several Node objects.  
-		# Then you can store these objects into self.nodes.  
-		# Finally, add to nd_dictionary by {key(index): value(corresponding node)}
+        # For example, when parsing raw_data, you may create several Node objects.
+        # Then you can store these objects into self.nodes.
+        # Finally, add to nd_dictionary by {key(index): value(corresponding node)}
         self.raw_data = pandas.read_csv(filepath).values
-        self.nodes = [] #adjacency list
+        self.nodes = []  # adjacency list
         self.nd_dict = dict()  # key: index, value: the correspond node
         for data in self.raw_data:
             node_name = str(int(data[0]))
             nd = Node(node_name)
-            for i in range(1,5):
+            for i in range(1, 5):
                 if not math.isnan(data[i]):
                     nd.setSuccessor(str(int(data[i])), i, int(data[i+4]))
             self.nodes.append(nd)
@@ -40,7 +40,6 @@ class Maze:
         self.target_dict = dict()
         self.getUTurnList()
         self.complete_target_list()
-
 
     def getStartPoint(self):
         if (len(self.nd_dict) < 2):
@@ -57,11 +56,10 @@ class Maze:
             if len(successor) == 1:
                 self.target_dict[node] = dict()
 
-
     def DFS(self, nd):
         # TODO : design your data structure here for your algorithm
         # Tips : return a sequence of nodes from the node to the nearest unexplored deadend
-        
+
         self.DFS_far(nd, [nd], 0, 0)
         route = self.DFS_far_ans
         unvisited = []
@@ -74,7 +72,7 @@ class Maze:
                 for next_nd in unvisit.getSuccessors():
                     if next_nd[0] in route:
                         if shortest == None or shortest > next_nd[2]:
-                            shortest = next_nd[2] 
+                            shortest = next_nd[2]
             done = False
             for unvisit in unvisited:
                 for next_nd in unvisit.getSuccessors():
@@ -97,7 +95,8 @@ class Maze:
                 distance += self.nd_dict[pre_nd].getDistance(next_nd[0])
                 have_successor = True
                 route.append(next_nd[0])
-                longest_distance = self.BFS_far(next_nd[0], route, longest_distance, distance)
+                longest_distance = self.BFS_far(
+                    next_nd[0], route, longest_distance, distance)
                 route.pop()
                 distance -= self.nd_dict[pre_nd].getDistance(next_nd[0])
         if not have_successor:
@@ -109,7 +108,7 @@ class Maze:
     def DFS_2(self, nd_from, nd_to):
         # TODO : similar to DFS but with fixed start point and end point
         # Tips : return a sequence of nodes of the shortest path
-        
+
         self.DFS_2_far_ans = [nd_from]
         self.DFS_2_far(nd_from, nd_to, [nd_from], 0, 0)
         route = self.DFS_2_far_ans
@@ -123,7 +122,7 @@ class Maze:
                 for next_nd in unvisit.getSuccessors():
                     if next_nd[0] in route:
                         if shortest == None or shortest > next_nd[2]:
-                            shortest = next_nd[2] 
+                            shortest = next_nd[2]
             done = False
             for unvisit in unvisited:
                 for next_nd in unvisit.getSuccessors():
@@ -143,7 +142,8 @@ class Maze:
             if next_nd[0] not in route:
                 distance += self.nd_dict[pre_nd].getDistance(next_nd[0])
                 route.append(next_nd[0])
-                longest_distance = self.DFS_2_far(next_nd[0], final, route, longest_distance, distance)
+                longest_distance = self.DFS_2_far(
+                    next_nd[0], final, route, longest_distance, distance)
                 route.pop()
                 distance -= self.nd_dict[pre_nd].getDistance(next_nd[0])
         if route[-1] == final:
@@ -155,7 +155,7 @@ class Maze:
     def getAction(self, car_dir, nd_from, nd_to):
         # TODO : get the car action
         # Tips : return an action and the next direction of the car if the nd_to is the Successor of nd_to
-		# If not, print error message and return 0
+        # If not, print error message and return 0
         direction = self.nd_dict[nd_from].getDirection(nd_to)
         if Direction(int(car_dir)) == direction:
             return Action(1)
@@ -165,7 +165,7 @@ class Maze:
             if direction == Direction(3):
                 return Action(4)
             if direction == Direction(4):
-                return Action(3)    
+                return Action(3)
         if car_dir == "2":
             if direction == Direction(1):
                 return Action(2)
@@ -190,19 +190,19 @@ class Maze:
 
         print("Error: getAction not found!")
         return 0
-    
+
     def complete_target_list(self):
         for node1 in self.target_dict:
             for node2 in self.target_dict:
                 if node1 != node2:
                     distance = self.BFS_rec(node1, node2, [node1], None, 0)
-                    self.target_dict[node1][node2] = (distance, list.copy(self.test_route))
-                    self.test_route=[]
+                    self.target_dict[node1][node2] = (
+                        distance, list.copy(self.test_route))
+                    self.test_route = []
 
     def BFS(self, nd_from):
         self.shortest_path(nd_from, [nd_from], None, 0)
         route = [nd_from]
-        print(self.test_path)
         for target in self.test_path:
             if target != nd_from:
                 route.pop()
@@ -217,9 +217,11 @@ class Maze:
                 path.append(target)
                 if shortest_distance != None:
                     if distance < shortest_distance:
-                        shortest_distance = self.shortest_path(target, path, shortest_distance, distance)
+                        shortest_distance = self.shortest_path(
+                            target, path, shortest_distance, distance)
                 else:
-                    shortest_distance = self.shortest_path(target, path, shortest_distance, distance)
+                    shortest_distance = self.shortest_path(
+                        target, path, shortest_distance, distance)
                 path.pop()
                 distance -= self.target_dict[nd_from][target][0]
         if len(path) == len(self.target_dict):
@@ -231,13 +233,13 @@ class Maze:
                 self.test_path = list.copy(path)
         return shortest_distance
 
-
     def BFS_rec(self, pre_nd, final, route, shortest_distance, distance):
         for next_nd in self.nd_dict[pre_nd].getSuccessors():
             if next_nd[0] not in route:
                 distance += self.nd_dict[pre_nd].getDistance(next_nd[0])
                 route.append(next_nd[0])
-                shortest_distance = self.BFS_rec(next_nd[0], final, route, shortest_distance, distance)
+                shortest_distance = self.BFS_rec(
+                    next_nd[0], final, route, shortest_distance, distance)
                 route.pop()
                 distance -= self.nd_dict[pre_nd].getDistance(next_nd[0])
         if route[-1] == final:

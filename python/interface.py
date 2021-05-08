@@ -4,6 +4,7 @@ import score
 
 # *hint: You may design additional functions to execute the input command, which will be helpful when debugging :)
 
+
 class interface:
     def __init__(self):
         print("")
@@ -19,10 +20,10 @@ class interface:
         input("Press enter to start.")
         # self.ser.SerialWrite('s')
 
-    def get_UID(self,time = 2.5):
+    def get_UID(self, time=1.5):
         return self.ser.SerialReadByte(time)
 
-    def send_action(self,action):
+    def send_action(self, action):
         # TODO : send the action to car
         self.ser.SerialWrite(str(int(action)))
         return

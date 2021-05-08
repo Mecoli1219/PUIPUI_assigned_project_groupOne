@@ -43,14 +43,15 @@ void do_ADVANCE()
 void do_TURN_RIGHT()
 {
     
-    MotorWriting(180, -255);
+    MotorWriting(120, -255);
     delay(280);
     MotorWriting(100, 100);
     delay(100);
-    MotorWriting(100, -100);
+    MotorWriting(100, -155);
     while(digitalRead(M) != 1);
     MotorWriting(0,0);
     do_ADVANCE();
+    MotorWriting(0,0);
     /*
     MotorWriting(-255, 150);
     delay(850);
@@ -66,17 +67,18 @@ void do_TURN_LEFT()
     delay(300);
     MotorWriting(100, 100);
     delay(100);
-    MotorWriting(-100, 100);
+    MotorWriting(-120, 100);
     while(digitalRead(M) != 1);
     MotorWriting(0,0);
     do_ADVANCE();
+    MotorWriting(0,0);
 }
 void do_U_TURN(){
     MotorWriting(-255, 200);
     delay(480);
     MotorWriting(100, 100);
     delay(100);
-    MotorWriting(-100, 100);
+    MotorWriting(-120, 100);
     while(digitalRead(M) != 1);
     MotorWriting(0,0);
     byte a =0;
@@ -87,9 +89,9 @@ void do_U_TURN(){
       if(a!=0)
         send_byte(A,mfrc522.uid.size);
     }
+    delay(1000);
     do_ADVANCE();
     MotorWriting(0, 0);
-    delay(2000);
 }
 void do_BACK()
 {

@@ -10,54 +10,58 @@ import time
 import sys
 import os
 
+
 def main():
-    maze = mz.Maze("data/final_map_109.csv")
+    maze = mz.Maze("data/small_maze.csv")
     point = score.Scoreboard("data/UID.csv", "team_NTUEE")
     interf = interface.interface()
     # TODO : Initializ1e necessary variables
 
     if (sys.argv[1] == '0'):
         print("Mode 0: for treasure-hunting")
-        direction = "2" #input("Enter the initial direction:(1,2,3,4)")
-        route = maze.strategy("1")
+        direction = "2"  # input("Enter the initial direction:(1,2,3,4)")
+        route = maze.strategy("6")
         print(route)
         start = 0
         action = maze.getAction(direction, route[start], route[start + 1])
         interf.send_action(action)
-        direction = str(int(maze.nd_dict[route[start]].getDirection(route[start + 1])))
+        direction = str(
+            int(maze.nd_dict[route[start]].getDirection(route[start + 1])))
         start += 1
 
         while(start < (len(route)-1)):
             command = interf.get_command()
             print(command)
             if command == "n":
-                action = maze.getAction(direction, route[start], route[start + 1])
+                action = maze.getAction(
+                    direction, route[start], route[start + 1])
                 interf.send_action(action)
                 if action == mz.Action(2):
                     uidcode = interf.get_UID()
                     print(uidcode)
                     point.add_UID(str(uidcode))
                     print(point.getCurrentScore())
-                direction = str(int(maze.nd_dict[route[start]].getDirection(route[start + 1])))
+                direction = str(
+                    int(maze.nd_dict[route[start]].getDirection(route[start + 1])))
                 start += 1
 
-#            if uidcode != 0:            
-                    #point.add_UID(str(uidcode))
-                    #print(point.getCurrentScore())
+#            if uidcode != 0:
+                # point.add_UID(str(uidcode))
+                # print(point.getCurrentScore())
  #               print(uidcode)
   #              point.add_UID(str(uidcode))
    #             print(point.getCurrentScore())
-            
+
         command = interf.get_command()
-        interf.send_action(mz.Action(5))        
+        interf.send_action(mz.Action(5))
 
         print(route)
         # TODO : for treasure-hunting, which encourages you to hunt as many scores as possible
-        
+
     elif (sys.argv[1] == '1'):
         # TODO: You can write your code to test specific function.
         print("Mode 1: for checkpoint")
-        direction = "2" #input("Enter the initial direction:(1,2,3,4)")
+        direction = "2"  # input("Enter the initial direction:(1,2,3,4)")
         in_node = 1
         interf.send_action(mz.Action(1))
         while(in_node < 13):
@@ -87,7 +91,7 @@ def main():
                     in_node += 1
                 elif in_node == 9:
                     interf.send_action(mz.Action(3))
-                    in_node += 1  
+                    in_node += 1
                 elif in_node == 10:
                     interf.send_action(mz.Action(2))
                     in_node += 1
@@ -100,15 +104,15 @@ def main():
                     in_node += 1
                 elif in_node == 12:
                     interf.send_action(mz.Action(5))
-                    in_node += 1      
+                    in_node += 1
                 print(in_node)
         command = interf.get_command()
-        interf.send_action(mz.Action(5))  
+        interf.send_action(mz.Action(5))
 
     elif (sys.argv[1] == '2'):
         # TODO: You can write your code to test specific function.
         print("Mode 2: for checkpoint with backward")
-        direction = "2" #input("Enter the initial direction:(1,2,3,4)")
+        direction = "2"  # input("Enter the initial direction:(1,2,3,4)")
         in_node = 1
         interf.send_action(mz.Action(1))
         while(in_node < 13):
@@ -135,7 +139,7 @@ def main():
                     in_node += 1
                 elif in_node == 9:
                     interf.send_action(mz.Action(3))
-                    in_node += 1  
+                    in_node += 1
                 elif in_node == 10:
                     interf.send_action(mz.Action(2))
                     in_node += 1
@@ -148,13 +152,14 @@ def main():
                     in_node += 1
                 elif in_node == 12:
                     interf.send_action(mz.Action(5))
-                    in_node += 1      
+                    in_node += 1
                 print(in_node)
 
         command = interf.get_command()
-        interf.send_action(mz.Action(5))  
+        interf.send_action(mz.Action(5))
 
     interf.end_process()
+
 
 if __name__ == '__main__':
     main()

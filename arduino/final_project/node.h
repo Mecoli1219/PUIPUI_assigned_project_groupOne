@@ -75,7 +75,7 @@ void do_TURN_LEFT()
 }
 void do_U_TURN(){
     MotorWriting(-255, 200);
-    delay(480);
+    delay(550);
     MotorWriting(100, 100);
     delay(100);
     MotorWriting(-120, 100);

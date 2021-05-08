@@ -89,19 +89,13 @@ void SetState(); // switch the state
 
 /*===========================define function===========================*/
 void loop()
-{
+{/*
   if (!state){
     MotorWriting(0, 0);
     Search();
   }
-  SetState();
-  /*
-  ll = digitalRead(LL);
-  l = digitalRead(L);
-  m = digitalRead(M);
-  r = digitalRead(R);
-  rr = digitalRead(RR);
-  tracking(ll, l, m, r, rr);*/
+  SetState();*/
+  do_command(BT_CMD::U_TURN);
 }
 
 
